@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Accessible React components and page blocks for Philippine government websites, in English, Filipino and Bisaya." />
+    <title>BetterGov UI</title>
+    <script>
+      // Set the theme before the page draws, so dark mode doesn't flash white first.
+      // Frames (/frame/…) get theirs from the URL instead; see src/pages/FramePage.jsx.
+      (function () {
+        var theme = new URLSearchParams(location.search).get("theme");
+        try { theme = theme || localStorage.getItem("bgui-theme"); } catch (e) {}
+        if (theme !== "light" && theme !== "dark") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

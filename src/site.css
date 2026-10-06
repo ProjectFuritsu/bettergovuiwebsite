@@ -1,0 +1,578 @@
+/*
+ * The docs site's own styles. Everything is built from the library's components and tokens
+ * (--surface, --text, --primary…), so the site follows its light and dark themes by itself.
+ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--text);
+    /* The system font: nothing to download, which suits a kit made for slow phones. */
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    line-height: 1.5;
+}
+
+/* Headings and examples someone links to (#props) shouldn't hide under the sticky header. */
+main [id] {
+    scroll-margin-top: 5rem;
+}
+
+/* Code colors (sugar-high), readable on --surface-muted in both themes. */
+:root {
+    --sh-class: #8a4b00;
+    --sh-identifier: #1c2430;
+    --sh-sign: #5b6573;
+    --sh-property: #0b5cad;
+    --sh-entity: #1a7f37;
+    --sh-jsxliterals: #4c2a99;
+    --sh-string: #a6214a;
+    --sh-keyword: #8e2bb0;
+    --sh-comment: #6b7380;
+}
+
+[data-theme="dark"] {
+    --sh-class: #f0b46a;
+    --sh-identifier: #e9ecef;
+    --sh-sign: #a6a7ab;
+    --sh-property: #7cc4ff;
+    --sh-entity: #7ee2a0;
+    --sh-jsxliterals: #c8b6ff;
+    --sh-string: #ff9fb8;
+    --sh-keyword: #e3a6ff;
+    --sh-comment: #9097a1;
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+    gap: var(--spacing-sm);
+}
+
+.site-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--text);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.site-logo:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.site-header-end {
+    margin-left: auto;
+}
+
+/* Docs | UI Studio: the section you're in looks like the library's current-page link */
+.site-sections {
+    margin-left: var(--spacing-md);
+}
+
+.site-sections a[aria-current="true"] {
+    background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+    box-shadow: inset 0 -2px 0 var(--primary);
+    font-weight: 600;
+}
+
+/* The studio's header: the same look as the docs' ScaffoldHeader, without a Scaffold around it */
+.site-header-standalone {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--spacing-sm);
+    min-height: 3.5rem;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.language-switch {
+    width: 7.5rem;
+}
+
+/* Narrower screens: the version and GitHub go first (GitHub is also in the footer)… */
+@media (width < 64em) {
+    .hide-below-desktop,
+    .site-version {
+        display: none;
+    }
+}
+
+/* …then on phones the parts of the site, which are in the ☰ menu and the home page instead */
+@media (width < 48em) {
+    .site-sections {
+        display: none;
+    }
+}
+
+@media (width < 25em) {
+    /* Small phones: the mark alone, so the language menu and theme button still fit. */
+    .site-logo span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+}
+
+/* The home page and plain pages: the header stays on top, slightly see-through */
+.site-header-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--surface) 85%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* ---------- Plain pages (the changelog): header, content, footer, no sidebar ---------- */
+
+.plain-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.plain-main {
+    flex: 1;
+    padding: clamp(1.5rem, 5vw, 3rem) var(--spacing-lg);
+}
+
+.plain-main:focus {
+    outline: none;
+}
+
+/* The same look as the ScaffoldFooter in the docs */
+.site-footer-standalone {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--border);
+    background: var(--surface-muted);
+}
+
+/* ---------- Sidebar ---------- */
+
+.nav-heading {
+    padding: 0 var(--spacing-md) var(--spacing-xs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.nav-section[data-indent] .nav-heading {
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* ---------- Main column ---------- */
+
+.site-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 52rem;
+    margin-inline: auto;
+    padding-bottom: var(--spacing-xl);
+}
+
+.lead {
+    max-width: 44rem;
+}
+
+/* ---------- On this page ---------- */
+
+.site-aside {
+    border-left: none;
+}
+
+@media (width < 64em) {
+    /* On narrower screens the Scaffold moves the aside under the page, where a list of sections doesn't help. */
+    .site-aside {
+        display: none;
+    }
+}
+
+.toc-title {
+    margin-bottom: var(--spacing-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.toc ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 1px solid var(--border);
+}
+
+.toc a {
+    display: block;
+    margin-left: -1px;
+    padding: 0.25rem 0.75rem;
+    border-left: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    text-decoration: none;
+}
+
+.toc li[data-level="3"] a {
+    padding-left: 1.5rem;
+    font-size: 0.8125rem;
+}
+
+.toc a:hover {
+    color: var(--text);
+}
+
+.toc a[aria-current] {
+    border-left-color: var(--primary);
+    color: var(--text);
+    font-weight: 600;
+}
+
+.toc a:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+/* ---------- Examples ---------- */
+
+.example-card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.example-preview {
+    padding: 2rem 1.5rem;
+    background:
+        radial-gradient(circle, color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1px) 0 0 / 16px 16px,
+        var(--surface);
+}
+
+.example-card .code-block {
+    max-height: 30rem;
+    border: none;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+}
+
+.frame-toolbar {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.frame-open {
+    font-size: 0.875rem;
+}
+
+.frame-preview .frame-stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-muted);
+}
+
+.frame-preview .frame-stage iframe {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    border: none;
+    border-inline: 1px solid var(--border);
+    background: var(--surface);
+    translate: -50% 0;
+    transform-origin: top center;
+}
+
+/* ---------- Props tables ---------- */
+
+.props-table .type-code {
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.props-table .prop-name {
+    font-weight: 600;
+}
+
+/* ---------- Cards that are links ---------- */
+
+/* The whole card is clickable: the link's ::after covers it. */
+.link-card {
+    position: relative;
+}
+
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+}
+
+.card-link:focus-visible {
+    outline: none;
+}
+
+.card-link:focus-visible::after {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+}
+
+.card-link svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+.prev-next {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+    padding-top: var(--spacing-xl);
+    border-top: 1px solid var(--border);
+}
+
+.prev-next-card-next {
+    text-align: right;
+    align-items: flex-end;
+}
+
+@media (width < 36em) {
+    .prev-next {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Foundations ---------- */
+
+.swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    gap: var(--spacing-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.swatch {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+
+.swatch-color {
+    height: 4.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.swatch-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+}
+
+.scale-bar {
+    height: 1rem;
+    border-radius: 3px;
+    background: var(--primary);
+}
+
+.theme-playground {
+    display: grid;
+    grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr);
+    gap: var(--spacing-xl);
+}
+
+@media (width < 40em) {
+    .theme-playground {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.color-input {
+    width: 3rem;
+    height: 2.5rem;
+    padding: 0.125rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.range-input {
+    width: 100%;
+    accent-color: var(--primary);
+}
+
+.icon-row svg {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* ---------- Getting started ---------- */
+
+.steps {
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.steps > li {
+    position: relative;
+    padding-left: 3rem;
+}
+
+.steps > li::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--primary) 14%, var(--surface));
+    color: var(--text);
+    font-weight: 700;
+}
+
+.feature-icon {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+    color: var(--primary);
+}
+
+[data-theme="dark"] .feature-icon {
+    color: color-mix(in srgb, var(--primary) 60%, white);
+}
+
+.feature-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* The heading sizes, without making the table's samples real headings (they'd clutter the page outline). */
+.heading-sample {
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+}
+
+.heading-sample-1 { font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.25rem); }
+.heading-sample-2 { font-size: clamp(1.5rem, 1.25rem + 1.1vw, 1.875rem); }
+.heading-sample-3 { font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem); }
+.heading-sample-4 { font-size: 1.25rem; }
+.heading-sample-5 { font-size: 1.125rem; }
+.heading-sample-6 { font-size: 1rem; }
+
+/* ---------- Shared helpers ---------- */
+
+/* Only for screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* "Skip to main content" on pages without a Scaffold (home, studio): it only shows when it has focus */
+.skip-link {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    z-index: 400;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius);
+    background: var(--primary);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.skip-link:not(:focus) {
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* Shown only on phones, e.g. the header's links repeated in the ☰ menu */
+@media (width >= 48em) {
+    .phone-only {
+        display: none;
+    }
+}
+
+/* ---------- Changelog ---------- */
+
+/* One release per row, thin lines between them: version and date on the left, what changed on the right */
+.changelog {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.changelog-release {
+    padding-block: var(--spacing-xl);
+    border-top: 1px solid var(--border);
+}
+
+.changelog-grid {
+    display: grid;
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: var(--spacing-xl);
+}
+
+@media (width < 40em) {
+    .changelog-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--spacing-md);
+    }
+}

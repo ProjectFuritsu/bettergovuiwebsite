@@ -1,0 +1,242 @@
+/*
+ * The home page, in the style of shadcn/ui's: neutral and quiet, thin borders, a big tight headline,
+ * and the components themselves as the main picture. Colors come from the kit's tokens, so dark mode just works.
+ */
+
+.landing {
+    --landing-gutter: clamp(1rem, 4vw, 2rem);
+    --landing-radius: calc(var(--radius) * 1.5);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.landing main {
+    flex: 1;
+}
+
+.landing main:focus {
+    outline: none;
+}
+
+.landing-wrap {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: var(--landing-gutter);
+}
+
+/* ---------- Hero ---------- */
+
+.landing-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding-top: clamp(3rem, 9vw, 6.5rem);
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+}
+
+/* The small announcement above the headline */
+.landing-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.15s;
+}
+
+.landing-pill:hover {
+    background: var(--surface-muted);
+}
+
+.landing-pill:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.landing-pill-tag {
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    background: var(--text);
+    color: var(--surface);
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.landing-pill svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+.landing h1.landing-title {
+    max-width: 26ch;
+    font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+}
+
+.landing .landing-lead {
+    max-width: 40rem;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 0.95rem + 0.35vw, 1.1875rem);
+    line-height: 1.6;
+    text-wrap: pretty;
+}
+
+/* npm install, between the text and the buttons: one line, like a terminal, with a small copy button */
+.landing-install {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    max-width: 24rem;
+    margin-top: var(--spacing-sm);
+    padding: 0.25rem 0.25rem 0.25rem var(--spacing-lg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface-muted);
+    text-align: left;
+}
+
+.landing-install code {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+@media (width < 30em) {
+    .landing-install code {
+        font-size: 0.8125rem;
+    }
+}
+
+.landing-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-sm);
+}
+
+/* shadcn's outline button: a light border, the text color, a soft hover */
+.landing .landing-outline {
+    border-color: var(--border);
+    background: var(--surface);
+    color: var(--text);
+}
+
+.landing .landing-outline:hover:not(:disabled) {
+    background: var(--surface-muted);
+}
+
+/* ---------- Showcase ---------- */
+
+.landing-showcase {
+    padding-bottom: var(--spacing-xl);
+}
+
+.landing-showcase-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+}
+
+/* The tabs scroll sideways on phones instead of squeezing */
+.landing-showcase-bar [role="tablist"] {
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.landing-showcase-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.landing-showcase-link svg {
+    width: 0.875rem;
+    height: 0.875rem;
+}
+
+/* The cards in columns, top to bottom, like a mosaic */
+.landing-mosaic {
+    columns: 3 18rem;
+    column-gap: var(--spacing-lg);
+}
+
+.landing-mosaic > * {
+    margin-bottom: var(--spacing-lg);
+    break-inside: avoid;
+    border-radius: var(--landing-radius);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+/*
+ * Like shadcn's home page: the cards fade out into the footer. Focusing anything inside (Tab, or clicking a field)
+ * shows all of them, so nothing keyboard users reach is ever hidden.
+ */
+.landing-fade {
+    position: relative;
+    max-height: 52rem;
+    overflow: clip;
+}
+
+.landing-fade::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 16rem;
+    background: linear-gradient(to bottom, transparent, var(--surface) 85%);
+    pointer-events: none;
+}
+
+.landing-fade:focus-within {
+    max-height: none;
+}
+
+.landing-fade:focus-within::after {
+    display: none;
+}
+
+.landing-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--border);
+    border-radius: var(--landing-radius);
+    background: var(--surface);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+/* ---------- Footer ---------- */
+
+/* No line on top: the showcase fades straight into it */
+.landing-footer {
+    padding-block: var(--spacing-xl);
+    text-align: center;
+}

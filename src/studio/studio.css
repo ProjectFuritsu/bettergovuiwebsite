@@ -1,0 +1,895 @@
+/* The UI Studio's styles: the library repo's playground.css, scoped to .studio (the workbench)
+   and .studio-frame (inside the preview frame) so they don't touch the rest of the site. */
+
+/* ---------- Workbench colors (light, then dark) ---------- */
+
+.studio {
+    --pg-bg: #ffffff;
+    --pg-panel: #f8f9fb;
+    --pg-border: #e3e7ed;
+    --pg-border-soft: #f0f2f5;
+    --pg-text: #1c2430;
+    --pg-text-soft: #3a4452;
+    --pg-muted: #5b6573;
+    --pg-faint: #8a94a3;
+    --pg-hover: #eef1f5;
+    --pg-active-bg: #e3edff;
+    --pg-active-text: #0057c2;
+    --pg-control-bg: #f1f3f5;
+    --pg-input-bg: #ffffff;
+    --pg-input-border: #d5dbe3;
+    --pg-canvas: #fafbfc;
+    --pg-dot: #dfe3e8;
+    --pg-device-ring: #d5dbe3;
+    --pg-bezel: #1c2430;
+    --pg-code-bg: #1c2430;
+    --pg-code-text: #e3e7ed;
+}
+
+[data-theme="dark"] .studio {
+    --pg-bg: #1a1b1e;
+    --pg-panel: #141517;
+    --pg-border: #2c2e33;
+    --pg-border-soft: #25262b;
+    --pg-text: #e9ecef;
+    --pg-text-soft: #c1c2c5;
+    --pg-muted: #a6a7ab;
+    --pg-faint: #7c7f86;
+    --pg-hover: #25262b;
+    --pg-active-bg: #1c3a5e;
+    --pg-active-text: #74c0fc;
+    --pg-control-bg: #25262b;
+    --pg-input-bg: #25262b;
+    --pg-input-border: #373a40;
+    --pg-canvas: #101113;
+    --pg-dot: #2c2e33;
+    --pg-device-ring: #373a40;
+    --pg-bezel: #373a40;
+    --pg-code-bg: #0b0c0e;
+    --pg-code-text: #e3e7ed;
+}
+
+/* ---------- Layout: sidebar | canvas | properties ---------- */
+
+.studio .workbench {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 300px;
+    /* The room under the site header (see .studio-layout below) */
+    height: 100%;
+}
+
+/* Properties hidden: the preview gets the room */
+.studio .workbench--props-hidden {
+    grid-template-columns: 240px minmax(0, 1fr);
+}
+
+.studio .props[hidden] {
+    display: none;
+}
+
+/* ---------- Left: component list ---------- */
+
+/* The brand and search stay put; only the component list scrolls */
+.studio .sidebar {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 16px 12px;
+    border-right: 1px solid var(--pg-border);
+    background: var(--pg-panel);
+    overflow: hidden;
+}
+
+/* Brand name and the dark mode toggle */
+.studio .sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 16px;
+    padding-left: 8px;
+}
+
+/* The language picker and the dark mode toggle */
+.studio .sidebar-tools {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.studio .language-select {
+    padding: 3px 4px;
+    border: 1px solid var(--pg-border);
+    border-radius: 6px;
+    background: var(--pg-panel);
+    color: var(--pg-muted);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.studio .language-select:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 1px;
+}
+
+.studio .brand {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.studio .sidebar-search {
+    position: relative;
+    display: flex;
+    flex: none;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.studio .sidebar-search-icon {
+    position: absolute;
+    left: 10px;
+    width: 16px;
+    height: 16px;
+    color: var(--pg-faint);
+    pointer-events: none;
+}
+
+.studio .sidebar-search-input {
+    width: 100%;
+    min-width: 0;
+    padding: 7px 30px 7px 32px;
+    border: 1px solid var(--pg-input-border);
+    border-radius: 6px;
+    background: var(--pg-input-bg);
+    color: var(--pg-text);
+    font: inherit;
+    font-size: 14px;
+}
+
+.studio .sidebar-search-input:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -1px;
+}
+
+/* The "/" hint on the right */
+.studio .sidebar-search-key {
+    position: absolute;
+    right: 8px;
+    padding: 0 6px;
+    border: 1px solid var(--pg-border);
+    border-radius: 4px;
+    color: var(--pg-faint);
+    font-family: inherit;
+    font-size: 12px;
+    line-height: 18px;
+    pointer-events: none;
+}
+
+.studio .sidebar-empty {
+    margin: 4px 8px;
+    font-size: 13px;
+    color: var(--pg-muted);
+}
+
+.studio .sidebar-heading {
+    margin: 0 8px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pg-faint);
+}
+
+.studio .nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 0;
+    margin: 0 -12px -16px;
+    padding: 2px 12px 16px;
+    overflow-y: auto;
+}
+
+.studio .nav-item {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    color: var(--pg-text-soft);
+    cursor: pointer;
+}
+
+.studio .nav-item:hover {
+    background: var(--pg-hover);
+}
+
+.studio .nav-item.is-active {
+    background: var(--pg-active-bg);
+    color: var(--pg-active-text);
+    font-weight: 600;
+}
+
+/* ---------- Center: toolbar, preview and code ---------- */
+
+.studio .canvas {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+}
+
+.studio .canvas-toolbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--pg-border);
+}
+
+.studio .canvas-toolbar h1 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.studio .canvas-toolbar p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--pg-muted);
+}
+
+.studio .toolbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.studio .toolbar-actions > button {
+    white-space: nowrap;
+}
+
+/* Responsive / Desktop / Tablet / Phone / Rotate */
+.studio .device-switch {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 10px;
+    background: var(--pg-control-bg);
+}
+
+.studio .device-switch-divider {
+    width: 1px;
+    height: 20px;
+    margin: 0 4px;
+    background: var(--pg-input-border);
+}
+
+/* ---------- Device preview ---------- */
+
+.studio .canvas-preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+    padding: 24px;
+    overflow: hidden;
+    background-color: var(--pg-canvas);
+    background-image: radial-gradient(var(--pg-dot) 1px, transparent 1px);
+    background-size: 16px 16px;
+}
+
+/* The room the device gets; DevicePreview measures it to fit the device inside */
+.studio .device-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* The device's screen, already shrunk to its shown size */
+.studio .device {
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 0 0 1px var(--pg-device-ring), 0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+.studio .device[data-device="phone"] {
+    border-radius: 18px;
+    box-shadow: 0 0 0 6px var(--pg-bezel), 0 12px 32px rgb(0 0 0 / 0.18);
+}
+
+.studio .device[data-device="tablet"] {
+    border-radius: 14px;
+    box-shadow: 0 0 0 8px var(--pg-bezel), 0 12px 32px rgb(0 0 0 / 0.18);
+}
+
+/* The iframe is the real device size; transform shrinks it without changing its viewport */
+.studio .device iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 0;
+    transform-origin: 0 0;
+}
+
+/* Responsive fills the whole area, sized by CSS alone (1px less on each side, so its thin border shows) */
+.studio .device[data-device="responsive"] {
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+}
+
+.studio .device[data-device="responsive"] iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.studio .device-label {
+    margin: 0;
+    text-align: center;
+    font-size: 12px;
+    color: var(--pg-muted);
+}
+
+/* ---------- Inside the preview iframe (uses the library's own tokens) ---------- */
+
+/* The component sits in the middle of the screen, both ways */
+.studio-frame .frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 16px;
+    background: var(--surface);
+    color: var(--text);
+}
+
+.studio-frame .frame-stage {
+    width: 100%;
+}
+
+/* Small components stay centered but have room to go full width */
+.studio-frame .frame--centered .frame-stage {
+    display: flex;
+    justify-content: center;
+    max-width: 480px;
+}
+
+/* Wide components like Tabs get a comfortable reading width */
+.studio-frame .frame--fill .frame-stage {
+    max-width: 720px;
+}
+
+/* Page-level components like Container get the whole width */
+.studio-frame .frame--full .frame-stage {
+    max-width: none;
+}
+
+/* Whole-page components like Scaffold: edge to edge, from the very top */
+.studio-frame .frame--page {
+    display: block;
+    padding: 0;
+}
+
+.studio-frame .frame--page .frame-stage {
+    max-width: none;
+}
+
+.studio-frame .hint {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.studio-frame .text-input {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+}
+
+/* ---------- Code ---------- */
+
+/* The panel under the preview: a header with Hide/Show, and the code, which scrolls */
+.studio .code-panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    /* Even a height saved in a bigger window never squeezes the toolbar and preview away */
+    max-height: max(80px, calc(100% - 340px));
+    background: var(--pg-code-bg);
+    color: var(--pg-code-text);
+}
+
+.studio .code-panel.is-hidden {
+    height: auto;
+}
+
+.studio .code-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 12px 6px 24px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.studio .code-panel.is-hidden .code-panel-header {
+    border-bottom: none;
+}
+
+.studio .code-panel-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.6);
+}
+
+.studio .code-panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Copy code: the main action, so it stands out a little more than Hide code */
+.studio .code-copy {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    border-radius: 6px;
+    background: rgb(255 255 255 / 0.06);
+    color: var(--pg-code-text);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.studio .code-copy:hover {
+    background: rgb(255 255 255 / 0.12);
+}
+
+.studio .code-copy:focus-visible {
+    outline: 2px solid #74c0fc;
+    outline-offset: 1px;
+}
+
+.studio .code-copy svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Only for screen readers */
+.studio .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.studio .code-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 6px;
+    background: none;
+    color: var(--pg-code-text);
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.studio .code-toggle:hover {
+    background: rgb(255 255 255 / 0.08);
+}
+
+.studio .code-toggle:focus-visible,
+.studio .code-resize-handle:focus-visible {
+    outline: 2px solid #74c0fc;
+    outline-offset: -2px;
+}
+
+.studio .code-toggle svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* An 8px strip along the top edge; drag it to resize. A small grip shows on hover and focus. */
+.studio .code-resize-handle {
+    position: absolute;
+    top: -4px;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    height: 8px;
+    cursor: ns-resize;
+}
+
+.studio .code-resize-handle::after {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: #74c0fc;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.studio .code-resize-handle:hover::after,
+.studio .code-resize-handle:focus-visible::after {
+    opacity: 1;
+}
+
+/* While dragging: the resize cursor everywhere, no text selection, and the iframe doesn't take the pointer */
+body.is-resizing,
+body.is-resizing * {
+    cursor: ns-resize !important;
+    user-select: none;
+}
+
+body.is-resizing iframe {
+    pointer-events: none;
+}
+
+.studio .canvas-code {
+    flex: 1;
+    min-height: 0;
+    margin: 0;
+    padding: 12px 24px 16px;
+    overflow: auto;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ---------- Right: properties ---------- */
+
+.studio .props {
+    padding: 16px;
+    border-left: 1px solid var(--pg-border);
+    overflow-y: auto;
+}
+
+.studio .props-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.studio .props-header h2 {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--pg-faint);
+}
+
+.studio .link-button {
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 13px;
+    color: var(--pg-active-text);
+    cursor: pointer;
+}
+
+.studio .prop {
+    display: grid;
+    grid-template-columns: 100px minmax(0, 1fr);
+    align-items: center;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--pg-border-soft);
+    font-size: 13px;
+}
+
+.studio .prop-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--pg-text-soft);
+}
+
+.studio .prop-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.studio .prop-input select,
+.studio .prop-input input[type="text"],
+.studio .prop-input input[type="number"] {
+    width: 100%;
+    min-width: 0;
+    padding: 6px 8px;
+    border: 1px solid var(--pg-input-border);
+    border-radius: 6px;
+    background: var(--pg-input-bg);
+    color: var(--pg-text);
+    font: inherit;
+}
+
+/* The color picker and the swatch next to color settings */
+.studio .prop-input input[type="color"] {
+    flex-shrink: 0;
+    width: 36px;
+    height: 30px;
+    padding: 2px;
+    border: 1px solid var(--pg-input-border);
+    border-radius: 6px;
+    background: var(--pg-input-bg);
+    cursor: pointer;
+}
+
+.studio .color-swatch {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.2);
+}
+
+/* "default" / "auto": no color of its own, shown as stripes */
+.studio .color-swatch[data-empty] {
+    background: repeating-linear-gradient(45deg, var(--pg-input-border) 0 2px, transparent 2px 5px);
+}
+
+.studio .prop-input input[type="range"] {
+    flex: 1;
+    min-width: 0;
+}
+
+.studio .prop-value {
+    min-width: 3ch;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--pg-muted);
+}
+
+/* ---------- Narrow screens: stack everything ---------- */
+
+@media (max-width: 900px) {
+    .studio .workbench {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+
+    .studio .sidebar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 10px 16px;
+        border-right: none;
+        border-bottom: 1px solid var(--pg-border);
+    }
+
+    .studio .sidebar-top {
+        margin: 0;
+        padding: 0;
+    }
+
+    .studio .sidebar {
+        flex-direction: row;
+    }
+
+    .studio .sidebar-search {
+        width: 160px;
+        margin: 0;
+    }
+
+    .studio .nav {
+        flex: 1;
+        margin: 0;
+        padding: 2px;
+    }
+
+    .studio .sidebar-heading {
+        display: none;
+    }
+
+    .studio .nav {
+        flex-direction: row;
+    }
+
+    .studio .nav-item {
+        width: auto;
+    }
+
+    .studio .canvas-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .studio .canvas-toolbar,
+.studio .canvas-code {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .studio .code-panel-header {
+        padding-left: 16px;
+    }
+
+    /* A fixed height, so the device has a known amount of room to fit into */
+    .studio .canvas-preview {
+        flex: none;
+        height: 75vh;
+        padding: 20px 16px;
+    }
+
+    .studio .props {
+        border-left: none;
+        border-top: 1px solid var(--pg-border);
+    }
+}
+
+/* Sidebar groups (Typography, Layout, …) */
+.studio .nav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.studio .nav-group + .nav-group {
+    margin-top: 16px;
+}
+
+/* Narrow screens: one sideways-scrolling row, without the group headings */
+@media (max-width: 900px) {
+    .studio .nav {
+        overflow-x: auto;
+    }
+
+    .studio .nav-group {
+        display: contents;
+    }
+
+    .studio .nav-item {
+        white-space: nowrap;
+    }
+}
+
+/* ---------- Layout guides (Grid, Stack, Group, Container pages) ---------- */
+
+.studio-frame .guides-root {
+    position: relative;
+    width: 100%;
+}
+
+/* On centered pages (e.g. Card), keep the component centered like it is without guides */
+.studio-frame .frame--centered .guides-root {
+    display: flex;
+    justify-content: center;
+}
+
+.studio-frame .guides {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none; /* the components underneath stay clickable */
+    /*
+     * A label wider than a thin strip at the page's edge would stick out and add a scrollbar, which
+     * makes the layout narrower, which changes the guides... Clipping sideways prevents that.
+     * (clip, unlike hidden, keeps the size label above the element visible.)
+     */
+    overflow-x: clip;
+}
+
+.studio-frame .guide {
+    position: absolute;
+    box-sizing: border-box;
+}
+
+/* Grid columns: a light band with a line on each side */
+.studio-frame .guide--column {
+    background: rgb(240 62 143 / 0.08);
+    border-right: 1px solid rgb(240 62 143 / 0.5);
+    border-left: 1px solid rgb(240 62 143 / 0.5);
+}
+
+/* Gaps between items or columns: magenta stripes */
+.studio-frame .guide--gap {
+    background: repeating-linear-gradient(45deg, rgb(240 62 143 / 0.45) 0 1.5px, transparent 1.5px 5px);
+}
+
+/* Padding: green stripes */
+.studio-frame .guide--padding {
+    background: repeating-linear-gradient(-45deg, rgb(47 158 68 / 0.45) 0 1.5px, transparent 1.5px 5px);
+}
+
+/* The element's own edges */
+.studio-frame .guide--outline {
+    outline: 1px dashed rgb(240 62 143 / 0.8);
+}
+
+.studio-frame .guide-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: #d6336c;
+    color: white;
+    font: 600 10px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+}
+
+.studio-frame .guide--padding .guide-label {
+    background: #2b8a3e;
+}
+
+/* Column widths sit at the top of each column */
+.studio-frame .guide--column .guide-label {
+    top: 2px;
+    transform: translate(-50%, 0);
+}
+
+/* The element's size sits just above its top-left corner */
+.studio-frame .guide--outline .guide-label {
+    top: 0;
+    left: 0;
+    transform: translateY(-100%);
+    border-radius: 3px 3px 0 0;
+}
+
+/* ---------- On the website: the site header on top, the workbench filling the rest ---------- */
+
+.studio-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    background: var(--pg-bg, var(--surface));
+}
+
+.studio-layout > .studio {
+    flex: 1;
+    min-height: 0;
+    background: var(--pg-bg);
+    color: var(--pg-text);
+}
+
+@media (max-width: 900px) {
+    /* The workbench stacks and the page scrolls, like the toolkit does on narrow screens */
+    .studio-layout {
+        height: auto;
+        min-height: 100dvh;
+    }
+}
+
+
+.studio .canvas:focus {
+    outline: none;
+}
