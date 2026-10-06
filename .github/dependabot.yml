@@ -5,6 +5,11 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    ignore:
+      # TypeScript 7 is the native compiler: its JavaScript API, which scripts/extract-api.mjs uses to read the
+      # library's props, is only under typescript/unstable/*. Stay on 6 until the script moves to the new API.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
     groups:
       # The component library on its own, since its updates change the docs (check the changelog)
       library:
