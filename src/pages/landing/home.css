@@ -6,6 +6,9 @@
 .landing {
     --landing-gutter: clamp(1rem, 4vw, 2rem);
     --landing-radius: calc(var(--radius) * 1.5);
+    /* The hero background: grid lines and how strong the colored glow is */
+    --landing-grid: color-mix(in srgb, var(--border) 75%, transparent);
+    --landing-glow: 22%;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -32,13 +35,74 @@
 /* ---------- Hero ---------- */
 
 .landing-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+}
+
+.landing-hero-inner {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing-lg);
-    padding-top: clamp(3rem, 9vw, 6.5rem);
+    padding-top: clamp(3.5rem, 10vw, 7.5rem);
     padding-bottom: clamp(2rem, 5vw, 3.5rem);
     text-align: center;
+}
+
+/* A faint grid that fades out from the top center */
+.landing-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+        linear-gradient(to right, var(--landing-grid) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--landing-grid) 1px, transparent 1px);
+    background-position: center top;
+    background-size: 3rem 3rem;
+    -webkit-mask-image: radial-gradient(ellipse 65% 75% at 50% 0%, #000 25%, transparent 100%);
+    mask-image: radial-gradient(ellipse 65% 75% at 50% 0%, #000 25%, transparent 100%);
+}
+
+/* A soft glow in the brand colors behind the headline, drifting slowly */
+.landing-hero::after {
+    content: "";
+    position: absolute;
+    top: -10rem;
+    left: 50%;
+    z-index: -1;
+    width: min(70rem, 140%);
+    height: 34rem;
+    background:
+        radial-gradient(closest-side at 35% 55%, color-mix(in srgb, var(--primary) var(--landing-glow), transparent), transparent),
+        radial-gradient(closest-side at 65% 45%, color-mix(in srgb, var(--accent) var(--landing-glow), transparent), transparent);
+    filter: blur(48px);
+    translate: -50% 0;
+    animation: landing-glow 16s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes landing-glow {
+    from {
+        transform: translateX(-5%) scale(1);
+    }
+
+    to {
+        transform: translateX(5%) scale(1.1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .landing-hero::after {
+        animation: none;
+    }
+}
+
+/* On the dark background the glow needs a little more color to show, and the grid a little less */
+[data-theme="dark"] .landing {
+    --landing-grid: color-mix(in srgb, var(--border) 60%, transparent);
+    --landing-glow: 30%;
 }
 
 /* The small announcement above the headline */
@@ -167,19 +231,6 @@
     white-space: nowrap;
 }
 
-.landing-showcase-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.landing-showcase-link svg {
-    width: 0.875rem;
-    height: 0.875rem;
-}
-
 /* The cards in columns, top to bottom, like a mosaic */
 .landing-mosaic {
     columns: 3 18rem;
@@ -194,8 +245,8 @@
 }
 
 /*
- * Like shadcn's home page: the cards fade out into the footer. Focusing anything inside (Tab, or clicking a field)
- * shows all of them, so nothing keyboard users reach is ever hidden.
+ * Like shadcn's home page: the cards fade out into the footer, and stay that way while people use them.
+ * The cards under the fade are made inert (see ShowcaseCards.jsx), so keyboard users never reach a hidden one.
  */
 .landing-fade {
     position: relative;
@@ -212,14 +263,6 @@
     height: 16rem;
     background: linear-gradient(to bottom, transparent, var(--surface) 85%);
     pointer-events: none;
-}
-
-.landing-fade:focus-within {
-    max-height: none;
-}
-
-.landing-fade:focus-within::after {
-    display: none;
 }
 
 .landing-form {
@@ -239,4 +282,65 @@
 .landing-footer {
     padding-block: var(--spacing-xl);
     text-align: center;
+}
+
+/* ---------- Dashboard and Landing page tabs ---------- */
+
+/* A still picture of a whole page. The whole box, border too, fades out into the footer like the cards above. */
+.landing-page-preview {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--landing-radius);
+    background: var(--surface);
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 14rem), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 14rem), transparent);
+}
+
+.landing-page-preview-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.875rem;
+}
+
+/* shadcn's toggle group: a gray track, with the chosen option raised */
+.landing-segmented {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: var(--radius);
+    background: var(--surface-muted);
+}
+
+.landing .landing-segmented > button {
+    border-radius: calc(var(--radius) - 2px);
+    color: var(--text-muted);
+}
+
+.landing .landing-segmented > button[aria-pressed="true"] {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 0 0 1px var(--border), 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.landing-page-preview-stage {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-muted);
+}
+
+.landing-page-preview-stage iframe {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    display: block;
+    border: none;
+    border-inline: 1px solid var(--border);
+    background: var(--surface);
+    translate: -50% 0;
+    transform-origin: top center;
 }

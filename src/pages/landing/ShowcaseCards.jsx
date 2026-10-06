@@ -27,7 +27,7 @@ import {
     Text,
     toast,
 } from "bettergovregiondavaoui";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // The cards on the home page: small, real screens of a city's online services, each built from the components.
 // They're live: type, pick, upload. Nothing is sent anywhere.
@@ -230,20 +230,53 @@ function StatusCard() {
     return <StatusChecker url={import.meta.env.BASE_URL} label="e-Services portal" />;
 }
 
-/** The cards in columns, like a mosaic. In this order they fill the columns top to bottom at about the same height. */
+/**
+ * The cards the fade hides can't be focused or clicked (`inert`), so keyboard users only reach cards they can see.
+ * A card counts as hidden once its bottom edge is in the lower half of the fade. It's worked out again whenever the
+ * layout changes (a new screen width, a card growing), but never for the card someone is using right now.
+ */
+function useInertUnderFade(fadeRef, mosaicRef) {
+    useEffect(() => {
+        const fade = fadeRef.current;
+        const mosaic = mosaicRef.current;
+        function update() {
+            const fadeHeight = parseFloat(getComputedStyle(fade, "::after").height) || 0;
+            const limit = fade.getBoundingClientRect().bottom - fadeHeight / 2;
+            for (const card of mosaic.children) {
+                if (card.contains(document.activeElement)) continue;
+                card.inert = card.getBoundingClientRect().bottom > limit;
+            }
+        }
+        update();
+        const observer = new ResizeObserver(update);
+        observer.observe(fade);
+        observer.observe(mosaic);
+        return () => observer.disconnect();
+    }, [fadeRef, mosaicRef]);
+}
+
+/**
+ * The cards in columns, like a mosaic, fading out into the footer. In this order they fill the columns top to bottom
+ * at about the same height.
+ */
 export function ShowcaseMosaic() {
+    const fadeRef = useRef(null);
+    const mosaicRef = useRef(null);
+    useInertUnderFade(fadeRef, mosaicRef);
     return (
-        <div className="landing-mosaic">
-            <PermitRenewalCard />
-            <NotificationsCard />
-            <ApplicationsCard />
-            <OfficersCard />
-            <PaymentMethodCard />
-            <StatusCard />
-            <TrackCard />
-            <AppointmentCard />
-            <UploadCard />
-            <FaqCard />
+        <div className="landing-fade" ref={fadeRef}>
+            <div className="landing-mosaic" ref={mosaicRef}>
+                <PermitRenewalCard />
+                <NotificationsCard />
+                <ApplicationsCard />
+                <OfficersCard />
+                <PaymentMethodCard />
+                <StatusCard />
+                <TrackCard />
+                <AppointmentCard />
+                <UploadCard />
+                <FaqCard />
+            </div>
         </div>
     );
 }
