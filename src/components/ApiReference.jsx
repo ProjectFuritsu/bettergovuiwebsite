@@ -2,6 +2,7 @@ import { Badge, Code, Group, Heading, Link, Stack, Table, Text } from "bettergov
 import { Fragment } from "react";
 import { api } from "../data/registry.js";
 import { inline } from "../lib/inline.jsx";
+import { sitePath } from "../lib/paths.js";
 import { anchorFor } from "../lib/toc.js";
 import { CodeBlock } from "./CodeBlock.jsx";
 import { RichText } from "./RichText.jsx";
@@ -10,8 +11,8 @@ import { RichText } from "./RichText.jsx";
 
 /** Types that have their own explanation in Foundations. */
 const TYPE_LINKS = {
-    Size: "/foundations/spacing#size",
-    Color: "/foundations/colors#color-prop",
+    Size: sitePath("/foundations/spacing#size"),
+    Color: sitePath("/foundations/colors#color-prop"),
 };
 
 function TypeText({ type }) {

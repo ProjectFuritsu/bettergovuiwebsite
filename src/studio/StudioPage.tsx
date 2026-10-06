@@ -5,6 +5,7 @@ import {useNavigate, useParams} from "react-router";
 import {slugify} from "../data/registry.js";
 import {SiteHeaderContent} from "../layout/SiteHeader.jsx";
 import {useSettings} from "../lib/settings.js";
+import {sitePath} from "../lib/paths.js";
 import {useInternalLinks} from "../lib/useInternalLinks.js";
 import {useTitle} from "../lib/useTitle.js";
 import {entries} from "./entries";
@@ -32,7 +33,7 @@ function initialPropsHidden() {
 
 /** Where a component's docs page is, e.g. /components/date-input or /blocks/hero-block */
 function docsPath(name: string, category: string) {
-    return `/${category === "Blocks" ? "blocks" : "components"}/${slugify(name)}`;
+    return sitePath(`/${category === "Blocks" ? "blocks" : "components"}/${slugify(name)}`);
 }
 
 export default function StudioPage() {

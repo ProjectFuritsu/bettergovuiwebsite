@@ -1,0 +1,39 @@
+name: CI
+
+# Every push to main and every pull request: the same checks as before a commit
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch makes the older run pointless
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Lint, type check and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Also writes src/generated/api.json from the installed library's types
+      - run: npm run api
+
+      - run: npm run lint
+
+      - run: npm run typecheck
+
+      - run: npm run build

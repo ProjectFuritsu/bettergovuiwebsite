@@ -227,7 +227,7 @@ function FaqCard() {
 }
 
 function StatusCard() {
-    return <StatusChecker url="/" label="e-Services portal" />;
+    return <StatusChecker url={import.meta.env.BASE_URL} label="e-Services portal" />;
 }
 
 /** The cards in columns, like a mosaic. In this order they fill the columns top to bottom at about the same height. */

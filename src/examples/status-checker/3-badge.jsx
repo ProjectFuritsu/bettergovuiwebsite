@@ -5,8 +5,8 @@ import { Group, Link, StatusChecker } from "bettergovregiondavaoui";
 export default function Example() {
     return (
         <Group gap="sm">
-            <Link href="/">This site</Link>
-            <StatusChecker url="/" variant="badge" />
+            <Link href={import.meta.env.BASE_URL}>This site</Link>
+            <StatusChecker url={import.meta.env.BASE_URL} variant="badge" />
         </Group>
     );
 }

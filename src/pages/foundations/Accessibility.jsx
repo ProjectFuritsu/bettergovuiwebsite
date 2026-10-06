@@ -4,6 +4,7 @@ import { Demo } from "../../components/Demo.jsx";
 import { OnThisPage } from "../../components/OnThisPage.jsx";
 import { PageHeader } from "../../components/PageHeader.jsx";
 import { Section } from "../../components/Section.jsx";
+import { sitePath } from "../../lib/paths.js";
 import { useTitle } from "../../lib/useTitle.js";
 
 const BUILT_IN = [
@@ -49,7 +50,7 @@ export function Accessibility() {
                 </List>
                 <Text>
                     The default <Code>--primary</Code> (<Code>#0d6efd</Code>) gives white text exactly the 4.5:1 minimum. If you
-                    change it, check white text is still readable: the <Link href="/foundations/colors#playground">theme
+                    change it, check white text is still readable: the <Link href={sitePath("/foundations/colors#playground")}>theme
                     playground</Link> does this for you.
                 </Text>
             </Section>
@@ -60,7 +61,7 @@ export function Accessibility() {
                         <Heading level={3}>Name icon-only buttons</Heading>
                         <Text>
                             Give a button with only an icon an <Code>aria-label</Code>, e.g.{" "}
-                            <Code>{'<Button leftIcon={<Trash2 />} aria-label="Delete" />'}</Code>. See <Link href="/foundations/icons#icon-only">Icons</Link>.
+                            <Code>{'<Button leftIcon={<Trash2 />} aria-label="Delete" />'}</Code>. See <Link href={sitePath("/foundations/icons#icon-only")}>Icons</Link>.
                         </Text>
                     </Stack>
                     <Stack gap="xs">
@@ -104,7 +105,7 @@ export function Accessibility() {
                         <Heading level={3}>Set the page language</Heading>
                         <Text>
                             <Code>{'<html lang="fil">'}</Code> tells screen readers how to pronounce the page. See{" "}
-                            <Link href="/foundations/languages">Languages</Link>.
+                            <Link href={sitePath("/foundations/languages")}>Languages</Link>.
                         </Text>
                     </Stack>
                 </Stack>

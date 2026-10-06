@@ -3,6 +3,10 @@
 // @frame 900
 import { LandingPage } from "bettergovregiondavaoui";
 import { Building2, CalendarDays, FileText, HandCoins, IdCard, Stethoscope } from "lucide-react";
+import cityHall from "../images/city-hall.svg";
+import newsHealth from "../images/news-health.svg";
+import newsMarket from "../images/news-market.svg";
+import newsRoad from "../images/news-road.svg";
 
 export default function Example() {
     return (
@@ -23,7 +27,7 @@ export default function Example() {
                 description: "Apply for permits, pay your taxes and book appointments online, from your phone.",
                 primaryAction: { label: "Apply now", href: "/apply" },
                 secondaryAction: { label: "See requirements", href: "/requirements" },
-                image: "/examples/city-hall.svg",
+                image: cityHall,
                 imageAlt: "",
             }}
             stats={{
@@ -50,9 +54,9 @@ export default function Example() {
                 id: "news",
                 action: { label: "All news", href: "/news" },
                 items: [
-                    { title: "Business One-Stop Shop opens in January", href: "/news/boss", date: "2026-10-01", category: "Event", image: "/examples/news-market.svg", imageAlt: "" },
-                    { title: "Road repairs on J.P. Laurel Avenue this week", href: "/news/roads", date: "2026-09-28", category: "Advisory", image: "/examples/news-road.svg", imageAlt: "" },
-                    { title: "Free flu shots at barangay health centers", href: "/news/flu", date: "2026-09-25", category: "Health", image: "/examples/news-health.svg", imageAlt: "" },
+                    { title: "Business One-Stop Shop opens in January", href: "/news/boss", date: "2026-10-01", category: "Event", image: newsMarket, imageAlt: "" },
+                    { title: "Road repairs on J.P. Laurel Avenue this week", href: "/news/roads", date: "2026-09-28", category: "Advisory", image: newsRoad, imageAlt: "" },
+                    { title: "Free flu shots at barangay health centers", href: "/news/flu", date: "2026-09-25", category: "Health", image: newsHealth, imageAlt: "" },
                 ],
             }}
             faq={{

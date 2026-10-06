@@ -17,6 +17,7 @@ import { NPM_URL, PACKAGE, REPOSITORY } from "../../data/registry.js";
 import { SiteHeaderContent } from "../../layout/SiteHeader.jsx";
 import { stopDemoLinks } from "../../lib/demo-links.js";
 import { findExample } from "../../lib/examples.js";
+import { sitePath } from "../../lib/paths.js";
 import { useSettings } from "../../lib/settings.js";
 import { useInternalLinks } from "../../lib/useInternalLinks.js";
 import { useScrollOnNavigate } from "../../lib/useScrollOnNavigate.js";
@@ -64,7 +65,7 @@ export function Home() {
 
             <main id="main" tabIndex={-1}>
                 <section className="landing-wrap landing-hero" aria-labelledby="landing-title">
-                    <a href="/studio" className="landing-pill">
+                    <a href={sitePath("/studio")} className="landing-pill">
                         <span className="landing-pill-tag">New</span>
                         <span>Try every component in the UI Studio</span>
                         <ArrowRight aria-hidden="true" />
@@ -78,8 +79,8 @@ export function Home() {
                     </Text>
                     <InstallCommand command={`npm install ${PACKAGE}`} />
                     <div className="landing-actions">
-                        <Button href="/getting-started" color="var(--text)" autoContrast>Get started</Button>
-                        <Button href="/components" variant="outline" color="var(--text)" className="landing-outline">
+                        <Button href={sitePath("/getting-started")} color="var(--text)" autoContrast>Get started</Button>
+                        <Button href={sitePath("/components")} variant="outline" color="var(--text)" className="landing-outline">
                             Browse components
                         </Button>
                     </div>
@@ -95,7 +96,7 @@ export function Home() {
                                 <Tab value="dashboard">Dashboard</Tab>
                                 <Tab value="page">Landing page</Tab>
                             </TabList>
-                            <Link href="/studio" underline="hover" className="landing-showcase-link">
+                            <Link href={sitePath("/studio")} underline="hover" className="landing-showcase-link">
                                 Open the UI Studio <ArrowRight aria-hidden="true" />
                             </Link>
                         </div>

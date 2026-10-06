@@ -19,7 +19,7 @@ export default function Example() {
                 <Stack gap="md">
                     <Heading level={2} id="status-heading">Service status</Heading>
                     <Text muted>Checked every minute.</Text>
-                    <StatusChecker url="/" label="e-Services portal" />
+                    <StatusChecker url={import.meta.env.BASE_URL} label="e-Services portal" />
                 </Stack>
             </Container>
         </LandingPage>

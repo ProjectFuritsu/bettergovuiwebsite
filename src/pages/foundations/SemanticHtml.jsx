@@ -3,6 +3,7 @@ import { CodeBlock } from "../../components/CodeBlock.jsx";
 import { OnThisPage } from "../../components/OnThisPage.jsx";
 import { PageHeader } from "../../components/PageHeader.jsx";
 import { Section } from "../../components/Section.jsx";
+import { sitePath } from "../../lib/paths.js";
 import { useTitle } from "../../lib/useTitle.js";
 
 const AS_VALUES = [
@@ -45,7 +46,7 @@ export function SemanticHtml() {
                     Screen reader users can jump between landmarks (header, navigation, main content, footer) and lists the way
                     sighted people skim a page. A list of six cards built as a <Code>{"<ul>"}</Code> is announced as "list, 6
                     items"; built from <Code>{"<div>"}</Code>s, it's just text. For a whole page frame with the landmarks in place,
-                    use <Link href="/components/scaffold">Scaffold</Link>.
+                    use <Link href={sitePath("/components/scaffold")}>Scaffold</Link>.
                 </Text>
             </Section>
 

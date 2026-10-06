@@ -22,6 +22,7 @@ import { PageHeader } from "../components/PageHeader.jsx";
 import { Section } from "../components/Section.jsx";
 import { BLOCKS, COMPONENT_GROUPS, COMPONENTS, PACKAGE, REPOSITORY, VERSION } from "../data/registry.js";
 import { inline } from "../lib/inline.jsx";
+import { sitePath } from "../lib/paths.js";
 import { useTitle } from "../lib/useTitle.js";
 
 const WHY = [
@@ -105,7 +106,7 @@ export function GettingStarted() {
                 title="Getting started"
                 actions={(
                     <Group gap="sm">
-                        <Button href="/components" rightIcon={<ArrowRight />}>Browse components</Button>
+                        <Button href={sitePath("/components")} rightIcon={<ArrowRight />}>Browse components</Button>
                         <Button href={REPOSITORY} target="_blank" variant="outline">View on GitHub</Button>
                     </Group>
                 )}
@@ -134,7 +135,7 @@ export function GettingStarted() {
                 <Text>
                     It needs React 18 or newer, and works with Vite, Next.js and other React setups. TypeScript types are included.
                     It's still early (version 0.x), so read the{" "}
-                    <Link href="/changelog">changelog</Link> when you update.
+                    <Link href={sitePath("/changelog")}>changelog</Link> when you update.
                 </Text>
             </Section>
 
@@ -207,7 +208,7 @@ import { Navbar, NavLink } from "${PACKAGE}";
 </LanguageProvider>`} />
                 <Text>
                     Try it on this site: the language menu at the top switches every preview. See{" "}
-                    <Link href="/foundations/languages">Languages</Link> for all the texts and how to change them.
+                    <Link href={sitePath("/foundations/languages")}>Languages</Link> for all the texts and how to change them.
                 </Text>
             </Section>
 
@@ -218,14 +219,14 @@ import { Navbar, NavLink } from "${PACKAGE}";
                 <Grid as="ul" columns={3} minColumnWidth="13rem" gap="sm">
                     {COMPONENT_GROUPS.map((group) => (
                         <Card as="li" key={group.title} hoverable padding="md" className="link-card">
-                            <Link href={`/components#${group.title.toLowerCase().replace(/\s+/g, "-")}`} className="card-link">
+                            <Link href={sitePath(`/components#${group.title.toLowerCase().replace(/\s+/g, "-")}`)} className="card-link">
                                 {group.title}
                             </Link>
                             <Text size="sm" muted>{group.items.map((item) => item.name).join(", ")}</Text>
                         </Card>
                     ))}
                     <Card as="li" hoverable padding="md" className="link-card">
-                        <Link href="/blocks" className="card-link">Blocks</Link>
+                        <Link href={sitePath("/blocks")} className="card-link">Blocks</Link>
                         <Text size="sm" muted>{BLOCKS.map((item) => item.name).join(", ")}</Text>
                     </Card>
                 </Grid>
@@ -233,7 +234,7 @@ import { Navbar, NavLink } from "${PACKAGE}";
 
             <Section id="studio" title="UI Studio">
                 <Text>
-                    Try every component and block in the <Link href="/studio">UI Studio</Link>: change the props, preview it as a
+                    Try every component and block in the <Link href={sitePath("/studio")}>UI Studio</Link>: change the props, preview it as a
                     phone, tablet or desktop, switch the theme and language, then copy the code. Every component page also has an
                     "Open in UI Studio" button.
                 </Text>

@@ -4,6 +4,7 @@ import { Demo } from "../../components/Demo.jsx";
 import { OnThisPage } from "../../components/OnThisPage.jsx";
 import { PageHeader } from "../../components/PageHeader.jsx";
 import { Section } from "../../components/Section.jsx";
+import { sitePath } from "../../lib/paths.js";
 import { useSettings } from "../../lib/settings.js";
 import { useTitle } from "../../lib/useTitle.js";
 
@@ -66,7 +67,7 @@ export function DarkMode() {
                 <CodeBlock code={`<html data-theme="dark">`} language="html" />
                 <Text>
                     Make sure the page itself uses the theme's colors (<Code>background: var(--surface)</Code> and{" "}
-                    <Code>color: var(--text)</Code> on <Code>body</Code>), as in <Link href="/getting-started">Getting started</Link>.
+                    <Code>color: var(--text)</Code> on <Code>body</Code>), as in <Link href={sitePath("/getting-started")}>Getting started</Link>.
                 </Text>
             </Section>
 

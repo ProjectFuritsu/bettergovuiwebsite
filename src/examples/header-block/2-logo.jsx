@@ -3,13 +3,14 @@
 // @frame 340
 import { Button, HeaderBlock } from "bettergovregiondavaoui";
 import { LogIn } from "lucide-react";
+import logo from "../images/logo.svg";
 
 export default function Example() {
     return (
         <HeaderBlock
             logo={(
                 <span style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontWeight: 700 }}>
-                    <img src="/favicon.svg" alt="" width={28} height={28} />
+                    <img src={logo} alt="" width={28} height={28} />
                     City of Davao e-Services
                 </span>
             )}

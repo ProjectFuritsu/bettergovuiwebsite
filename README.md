@@ -1,5 +1,10 @@
 # BetterGov UI website
 
+[![CI](https://github.com/ProjectFuritsu/bettergovuiwebsite/actions/workflows/ci.yml/badge.svg)](https://github.com/ProjectFuritsu/bettergovuiwebsite/actions/workflows/ci.yml)
+[![Deploy](https://github.com/ProjectFuritsu/bettergovuiwebsite/actions/workflows/deploy.yml/badge.svg)](https://github.com/ProjectFuritsu/bettergovuiwebsite/actions/workflows/deploy.yml)
+
+**Live site: https://projectfuritsu.github.io/bettergovuiwebsite/**
+
 The documentation site for [BetterGov UI](https://github.com/ProjectFuritsu/bettergovui)
 ([`bettergovregiondavaoui`](https://www.npmjs.com/package/bettergovregiondavaoui) on npm). It's built with the library
 itself: the layout is its `Scaffold`, the tables are its `Table`, the code blocks are its `Code`.
@@ -98,12 +103,42 @@ export default function Example() {
 When the library gets a new component, add it to its group in `src/data/registry.js`, then add examples. The page,
 the sidebar link and the props table come from that.
 
-## Deploying
+## Checks and deploys
 
-It's a static site that works on any host. Pages have clean addresses (`/components/button`), so the host must send
+GitHub Actions runs two workflows (in `.github/workflows/`):
+
+- **CI** (`ci.yml`), on every push and pull request: lint, type check and build. Run the same checks locally with
+  `npm run lint`, `npm run typecheck` and `npm run build`.
+- **Deploy to GitHub Pages** (`deploy.yml`), on every push to `main`: builds the site and publishes it. It needs
+  Pages turned on once: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+Dependabot (`.github/dependabot.yml`) opens pull requests once a month to update the dependencies and the actions,
+with the component library in a pull request of its own.
+
+### The site's folder
+
+On GitHub Pages the site lives in a folder, `/bettergovuiwebsite/`. The deploy workflow passes that to the build as
+`BASE_PATH`, and with a custom domain it becomes `/` by itself. So that links work in both cases:
+
+- Router links (`<RouterLink to="/components">`, `NavLink as={RouterNavLink}`) work as they are.
+- Plain links to the site's own pages (`<Link href>`, `<Button href>`) go through `sitePath("/components")` from
+  `src/lib/paths.js`.
+- Pictures in examples are imported (`import cityHall from "../images/city-hall.svg"`), not put in `public/`.
+
+To try a build in a folder locally:
+
+```bash
+BASE_PATH=/bettergovuiwebsite/ npm run build
+npx vite preview --base /bettergovuiwebsite/
+```
+
+(In Git Bash on Windows, start the first line with `MSYS_NO_PATHCONV=1` so the path isn't turned into a Windows one.)
+
+### Other hosts
+
+It's a static site, so it works on any host. Pages have clean addresses (`/components/button`), so the host must send
 every address to `index.html`:
 
 - **Netlify** and **Cloudflare Pages**: `public/_redirects` already does this.
 - **Vercel**: `vercel.json` already does this.
-- **GitHub Pages**: copy `dist/index.html` to `dist/404.html` after building. The site expects to be at the root of
-  its domain, so use a custom domain or a user site (`username.github.io`), not a project subfolder.
+- **GitHub Pages**: the deploy workflow copies `index.html` to `404.html`, which Pages shows for any other address.

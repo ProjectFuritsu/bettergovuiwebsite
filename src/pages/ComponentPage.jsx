@@ -9,6 +9,7 @@ import { PageHeader } from "../components/PageHeader.jsx";
 import { RichText } from "../components/RichText.jsx";
 import { findEntry, PACKAGE } from "../data/registry.js";
 import { examplesFor } from "../lib/examples.js";
+import { sitePath } from "../lib/paths.js";
 import { useTitle } from "../lib/useTitle.js";
 import { apiHeadings, exampleAnchor } from "../lib/toc.js";
 import { NotFound } from "./NotFound.jsx";
@@ -44,7 +45,7 @@ export function ComponentPage({ kind }) {
                 title={entry.name}
                 actions={(
                     <Group gap="sm">
-                        <Button href={`/studio/${entry.slug}`} variant="outline" size="sm" leftIcon={<SlidersHorizontal />}>
+                        <Button href={sitePath(`/studio/${entry.slug}`)} variant="outline" size="sm" leftIcon={<SlidersHorizontal />}>
                             Open in UI Studio
                         </Button>
                     </Group>

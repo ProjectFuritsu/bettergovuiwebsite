@@ -4,6 +4,7 @@ import { Demo } from "../../components/Demo.jsx";
 import { OnThisPage } from "../../components/OnThisPage.jsx";
 import { PageHeader } from "../../components/PageHeader.jsx";
 import { Section } from "../../components/Section.jsx";
+import { sitePath } from "../../lib/paths.js";
 import { useTitle } from "../../lib/useTitle.js";
 
 const HEADINGS = [
@@ -75,7 +76,7 @@ export function Typography() {
                         <Heading level={3} color="primary">A colored h3</Heading>
                     </Stack>
                 </Demo>
-                <Text><Link href="/components/heading">All of Heading's props</Link></Text>
+                <Text><Link href={sitePath("/components/heading")}>All of Heading's props</Link></Text>
             </Section>
 
             <Section id="text" title="Body text">

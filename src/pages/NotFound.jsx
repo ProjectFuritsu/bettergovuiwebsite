@@ -1,5 +1,6 @@
 import { Button, Group, Stack } from "bettergovregiondavaoui";
 import { PageHeader } from "../components/PageHeader.jsx";
+import { sitePath } from "../lib/paths.js";
 import { useTitle } from "../lib/useTitle.js";
 
 export function NotFound() {
@@ -10,9 +11,9 @@ export function NotFound() {
                 There's no page at this address. It may have moved, or the link may have a typo.
             </PageHeader>
             <Group>
-                <Button href="/">Home</Button>
-                <Button href="/getting-started" variant="outline">Getting started</Button>
-                <Button href="/components" variant="outline">All components</Button>
+                <Button href={sitePath("/")}>Home</Button>
+                <Button href={sitePath("/getting-started")} variant="outline">Getting started</Button>
+                <Button href={sitePath("/components")} variant="outline">All components</Button>
             </Group>
         </Stack>
     );

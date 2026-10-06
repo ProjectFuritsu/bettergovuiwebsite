@@ -3,5 +3,5 @@
 import { StatusChecker } from "bettergovregiondavaoui";
 
 export default function Example() {
-    return <StatusChecker url="/" label="This site" style={{ maxWidth: "24rem" }} />;
+    return <StatusChecker url={import.meta.env.BASE_URL} label="This site" style={{ maxWidth: "24rem" }} />;
 }

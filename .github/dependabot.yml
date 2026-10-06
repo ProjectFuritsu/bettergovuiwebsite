@@ -1,0 +1,22 @@
+# Opens pull requests to update dependencies once a month, grouped so there's one PR for each kind
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      # The component library on its own, since its updates change the docs (check the changelog)
+      library:
+        patterns: ["bettergovregiondavaoui"]
+      dependencies:
+        patterns: ["*"]
+        exclude-patterns: ["bettergovregiondavaoui"]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
